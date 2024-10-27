@@ -27,14 +27,10 @@ const deletePlaceCard = (event) => {
 
 const toggleFavoriteCard = (event) => {
   const favoriteButton = event.target;
-  const isFavoriteButton = favoriteButton.classList.contains('card__like-button');
-
-  if (isFavoriteButton) {
-    favoriteButton.classList.toggle('card__like-button_is-active');
-  }
+  favoriteButton.classList.toggle('card__like-button_is-active');
 }
 
-const handlefillDataImagePopap = (event) => {
+const handleFillDataImagePopap = (event) => {
   const targetImage = event.target;
   const imageSrc = targetImage.src;
   const imageCaption = targetImage.alt;
@@ -47,5 +43,5 @@ const handlefillDataImagePopap = (event) => {
   imagePopapCaption.textContent = imageCaption;
 }
 
-export { createPlaceCard, deletePlaceCard, toggleFavoriteCard, handlefillDataImagePopap };
+export { createPlaceCard, deletePlaceCard, toggleFavoriteCard, handleFillDataImagePopap };
 

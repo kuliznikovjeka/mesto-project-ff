@@ -1,4 +1,4 @@
-import { cardsData, createPlaceCard, deletePlaceCard, toggleFavoriteCard, handlefillDataImagePopap } from './scripts/card';
+import { cardsData, createPlaceCard, deletePlaceCard, toggleFavoriteCard, handleFillDataImagePopap } from './scripts/card';
 import { handleCloseModal, handleOpenModal, } from './scripts/modal';
 // styles
 import './styles/index.css';
@@ -30,10 +30,10 @@ const profileNameInput = formEditUserProfile.elements.name;
 const profileDescriptionInput = formEditUserProfile.elements.description;
 // Данные и дом ноды  формы профиля пользователя
 
-// Данные и дом ноды формы создания карточки
+// Дом ноды формы создания карточки
 const cardPlaceNameInput = formCreateCard.elements['place-name'];
 const cardPlaceLinkInput = formCreateCard.elements.link;
-// Данные и дом ноды формы создания карточки
+// Дом ноды формы создания карточки
 
 const handleCreateCardPlaceFormSubmit = (event) => {
   event.preventDefault();
@@ -43,7 +43,7 @@ const handleCreateCardPlaceFormSubmit = (event) => {
     link: cardPlaceLinkInput.value
   }
 
-  const card = createPlaceCard(newCardData, deletePlaceCard, toggleFavoriteCard, handlefillDataImagePopap)
+  const card = createPlaceCard(newCardData, deletePlaceCard, toggleFavoriteCard, handleFillDataImagePopap);
 
   placesList.prepend(card)
   formCreateCard.reset();
@@ -75,7 +75,10 @@ profileEditPopapOpenButton.addEventListener('click', () => {
   fillUserProfileFormFields();
 });
 
-createCardPopapOpenButton.addEventListener('click', () => handleOpenModal(popapCardCreate));
+createCardPopapOpenButton.addEventListener('click', () => {
+  formCreateCard.reset();
+  handleOpenModal(popapCardCreate);
+});
 
 placesList.addEventListener('click', (event) => {
   const isCardImage = event.target.classList.contains('card__image');
@@ -86,25 +89,25 @@ placesList.addEventListener('click', (event) => {
 // слушатели событиий для октрытия попапов
 
 
-// слушатели событиий для закрытия попапов
+// слушатели событиий для закрытия попапов и добавление класса для анимации
 popaps.forEach(popap => {
   popap.classList.add('popup_is-animated');
 
   popap.addEventListener('click', (event) => {
-    const isOutsideClick = event.target.classList.contains('popup') && !event.target.closest('.popup__content');
-    const closeButton = event.target.classList.contains('popup__close');
+    const isOutsideClick = !event.target.closest('.popup__content');
+    const isCloseButton = event.target.classList.contains('popup__close');
 
-    if (closeButton || isOutsideClick) {
+    if (isCloseButton || isOutsideClick) {
       handleCloseModal(popap);
     }
   })
 })
-// слушатели событиий для закрытия попапов
+// слушатели событиий для закрытия попапов и добавление класса для анимации
 
 // отрисовка карточек
 const renderPlaceCards = () => {
   cardsData.forEach(cardData => {
-    const card = createPlaceCard(cardData, deletePlaceCard, toggleFavoriteCard, handlefillDataImagePopap);
+    const card = createPlaceCard(cardData, deletePlaceCard, toggleFavoriteCard, handleFillDataImagePopap);
     placesList.append(card)
   });
 };
