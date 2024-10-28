@@ -1,7 +1,11 @@
 const cardTemplate = document.querySelector('#card-template');
 
+const getCardTemplate = (cardTemplate) => {
+  return cardTemplate.content.cloneNode(true)
+}
+
 const createPlaceCard = (cardData, deleteCard, toggleFavoriteCard, fillDataImagePopap) => {
-  const card = cardTemplate.content.cloneNode(true);
+  const card = getCardTemplate(cardTemplate);
 
   const img = card.querySelector('.card__image');
   img.src = cardData.link;
@@ -30,18 +34,5 @@ const toggleFavoriteCard = (event) => {
   favoriteButton.classList.toggle('card__like-button_is-active');
 }
 
-const handleFillDataImagePopap = (event) => {
-  const targetImage = event.target;
-  const imageSrc = targetImage.src;
-  const imageCaption = targetImage.alt;
-
-  const imagePopap = document.querySelector('.popup__image');
-  const imagePopapCaption = document.querySelector('.popup__caption');
-
-  imagePopap.src = imageSrc;
-  imagePopap.alt = imageCaption;
-  imagePopapCaption.textContent = imageCaption;
-}
-
-export { createPlaceCard, deletePlaceCard, toggleFavoriteCard, handleFillDataImagePopap };
+export { createPlaceCard, deletePlaceCard, toggleFavoriteCard };
 

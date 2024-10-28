@@ -1,1 +1,1 @@
-export { handleCloseModal, handleOpenModal } from './modal.js';
+export { handleCloseModal, handleOpenModal, handleCloseModalByOverlay } from './modal.js';

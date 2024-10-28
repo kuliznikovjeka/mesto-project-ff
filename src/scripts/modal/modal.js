@@ -9,15 +9,23 @@ const handleCloseModal = (popapNode) => {
   document.removeEventListener('keydown', handleEscCloseModal);
 }
 
+const handleCloseModalByOverlay = (event) => {
+  const isOutsideClick = !event.target.closest('.popup__content');
+  const modal = event.target.closest('.popup');
+
+  if (isOutsideClick) {
+    handleCloseModal(modal)
+  }
+}
+
 function handleEscCloseModal (event) {
   if (event.key === 'Escape') {
     const openedPopap = document.querySelector('.popup_is-opened');
 
     if (openedPopap) {
       handleCloseModal(openedPopap);
-      document.removeEventListener('keydown', handleEscCloseModal);
     }
   }
 };
 
-export { handleOpenModal, handleCloseModal };
+export { handleOpenModal, handleCloseModal, handleCloseModalByOverlay };
