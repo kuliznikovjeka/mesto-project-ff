@@ -21,6 +21,9 @@ const createPlaceCard = (cardData, deleteCard, toggleFavoriteCard, fillDataImage
   const favoriteButton = card.querySelector('.card__like-button');
   favoriteButton.addEventListener('click', toggleFavoriteCard)
 
+  const countOfLikes = card.querySelector('.card__count-of-likes');
+  countOfLikes.textContent = cardData.likes.length;
+
   return card;
 };
 

@@ -1,3 +1,5 @@
+import { getUserInfo, getCards, editUserProfile, addNewCard } from './scripts/api';
+import { ERRORS } from './scripts/constants/errors';
 import { cardsData, createPlaceCard, deletePlaceCard, toggleFavoriteCard } from './scripts/card';
 import { handleCloseModal, handleOpenModal, handleCloseModalByOverlay } from './scripts/modal';
 // styles
@@ -30,6 +32,7 @@ const formEditUserProfile = document.forms['edit-profile'];
 // Данные и дом ноды формы профиля пользователя
 const profileName = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
+const profileImage = document.querySelector('.profile__image');
 
 const profileNameInput = formEditUserProfile.elements.name;
 const profileDescriptionInput = formEditUserProfile.elements.description;
@@ -53,25 +56,39 @@ const handleFillDataImagePopap = (event) => {
 const handleCreateCardPlaceFormSubmit = (event) => {
   event.preventDefault();
 
-  const newCardData = {
+  const cardData = {
     name: cardPlaceNameInput.value,
     link: cardPlaceLinkInput.value
   }
 
-  const card = createPlaceCard(newCardData, deletePlaceCard, toggleFavoriteCard, handleFillDataImagePopap);
+  console.log(cardData);
 
-  placesList.prepend(card)
-  formCreateCard.reset();
-  handleCloseModal(popapCardCreate);
+  addNewCard(cardData)
+    .then((newCardData) => {
+      const card = createPlaceCard(newCardData, deletePlaceCard, toggleFavoriteCard, handleFillDataImagePopap);
+      placesList.prepend(card)
+      formCreateCard.reset();
+    })
+    .catch((error) => console.error(error))
+    .finally(() => handleCloseModal(popapCardCreate));
 }
 
 const handleUserProfileFormSubmit = (event) => {
   event.preventDefault();
 
-  profileName.textContent = profileNameInput.value;
-  profileDescription.textContent = profileDescriptionInput.value;
+  const userData =  {
+    name: profileNameInput.value,
+    about: profileDescriptionInput.value
+  }
 
-  handleCloseModal(popapProfileEdit);
+  editUserProfile(userData)
+    .then((data) => {
+      profileName.textContent = data.name;
+      profileDescription.textContent = data.about;
+    })
+    .catch((error) => console.error(error))
+    .finally(() => handleCloseModal(popapProfileEdit));
+
 }
 
 const fillUserProfileFormFields = () => {
@@ -79,6 +96,20 @@ const fillUserProfileFormFields = () => {
   profileDescriptionInput.value = profileDescription.textContent;
 }
 
+// Запросы данных и заполнение дом нод
+Promise.all([getUserInfo(), getCards()]).then((values) => {
+  const userData = values[0];
+  const cardsData = values[1];
+
+  profileName.textContent = userData.name;
+  profileDescription.textContent = userData.about;
+  profileImage.style.backgroundImage = `url(${userData.avatar})`;
+
+  renderPlaceCards(cardsData);
+
+}).catch((error) => console.error(error));
+
+// Запросы данных и заполнение дом нод
 
 // слушатели событий форм
 formEditUserProfile.addEventListener('submit', handleUserProfileFormSubmit);
@@ -121,12 +152,11 @@ popaps.forEach(popap => {
 // слушатели событиий для закрытия попапов и добавление класса для анимации
 
 // отрисовка карточек
-const renderPlaceCards = () => {
+function renderPlaceCards(cardsData) {
   cardsData.forEach(cardData => {
     const card = createPlaceCard(cardData, deletePlaceCard, toggleFavoriteCard, handleFillDataImagePopap);
     placesList.append(card)
   });
 };
 
-renderPlaceCards();
 
