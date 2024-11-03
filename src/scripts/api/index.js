@@ -1,1 +1,9 @@
-export { getUserInfo, getCards, editUserProfile, addNewCard} from './api.js';
+export {
+  getUserInfo,
+  getCards,
+  editUserProfile,
+  addNewCard,
+  deleteCard,
+  toggleFavoriteCard,
+  updateUserAvatar
+} from './api.js';

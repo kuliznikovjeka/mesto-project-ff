@@ -1,2 +1,1 @@
-export { cardsData } from './cards-data.js';
-export { createPlaceCard, deletePlaceCard, toggleFavoriteCard } from './card.js';
+export { createPlaceCard, handleDeletePlaceCard, handleToggleFavoriteCard, hiddenDeleteCardButton } from './card.js';

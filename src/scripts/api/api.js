@@ -1,5 +1,5 @@
 const config = {
-  baseUrl: 'https://mesto.nomoreparties.co/cohort-mag-4',
+  baseUrl: 'https://nomoreparties.co/v1/cohort-mag-4',
   headers: {
     authorization: '93f35fe1-3703-4371-a5c8-df2f38c921df',
     'Content-Type': 'application/json'
@@ -7,6 +7,8 @@ const config = {
   method: {
     patch: 'PATCH',
     post: 'POST',
+    put: 'PUT',
+    delete: 'DELETE'
   }
 }
 
@@ -72,7 +74,60 @@ const addNewCard = (cardData) => {
   })
 }
 
+const deleteCard = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    headers: config.headers,
+    method: config.method.delete
+  })
+  .then((response, reject) => {
+    if (response.ok) {
+      return response.json();
+    }
 
+    return reject(`Ошибка ${response.status}`);
+  })
+}
 
-export { getUserInfo, getCards , editUserProfile, addNewCard }
+const toggleFavoriteCard = (cardId, isLiked) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    headers: config.headers,
+    method: isLiked
+      ? config.method.delete
+      : config.method.put
+  })
+  .then((response, reject) => {
+    if (response.ok) {
+      return response.json();
+    }
+
+    return reject(`Ошибка ${response.status}`);
+  })
+}
+
+const updateUserAvatar = (avatarLink) => {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    headers: config.headers,
+    method: config.method.patch,
+    body: JSON.stringify({
+      avatar: avatarLink,
+    })
+  })
+  .then((response, reject) => {
+    if (response.ok) {
+      return response.json();
+    }
+
+    return reject(`Ошибка ${response.status}`);
+  })
+}
+
+export {
+  getUserInfo,
+  getCards,
+  editUserProfile,
+  addNewCard,
+  deleteCard,
+  toggleFavoriteCard,
+  updateUserAvatar
+}
 
