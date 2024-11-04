@@ -1,6 +1,7 @@
 import { getUserInfo, getCards, editUserProfile, addNewCard, updateUserAvatar } from './scripts/api';
 import { createPlaceCard, handleDeletePlaceCard, hiddenDeleteCardButton, handleToggleFavoriteCard } from './scripts/card';
 import { handleCloseModal, handleOpenModal, handleCloseModalByOverlay } from './scripts/modal';
+import { enableValidation, clearValidation, validationConfig } from './scripts/validation';
 // styles
 import './styles/index.css';
 
@@ -13,6 +14,7 @@ const popapImageCard = document.querySelector('.popup_type_image');
 const popapAvatarEdit = document.querySelector('.popup_type_avatar_edit');
 const popaps = document.querySelectorAll('.popup');
 // Попапы
+
 
 // дом ноды внутренностей попапа с картинками
 const imagePopap = document.querySelector('.popup__image');
@@ -131,7 +133,6 @@ Promise.all([getUserInfo(), getCards()]).then((values) => {
   const cardsData = values[1];
 
   const userId = userData._id;
-  console.log(userId);
 
   profileName.textContent = userData.name;
   profileDescription.textContent = userData.about;
@@ -154,16 +155,19 @@ formEditAvatar.addEventListener('submit', handleEditAvatarFormSubmit);
 profileEditPopapOpenButton.addEventListener('click', () => {
   handleOpenModal(popapProfileEdit);
   fillUserProfileFormFields();
+  clearValidation(formEditUserProfile, validationConfig);
 });
 
 editAvatarPopapOpenButton.addEventListener('click', () => {
   formEditAvatar.reset();
   handleOpenModal(popapAvatarEdit);
+  clearValidation(formEditAvatar, validationConfig);
 })
 
 createCardPopapOpenButton.addEventListener('click', () => {
   formCreateCard.reset();
   handleOpenModal(popapCardCreate);
+  clearValidation(formCreateCard, validationConfig);
 });
 
 placesList.addEventListener('click', (event) => {
@@ -198,4 +202,5 @@ function renderPlaceCards(cardsData, userId) {
   });
 };
 
+enableValidation(validationConfig);
 
