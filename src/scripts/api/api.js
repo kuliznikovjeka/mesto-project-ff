@@ -12,30 +12,26 @@ const config = {
   }
 }
 
+const checkResponse = (response) => {
+  if (response.ok) {
+    return response.json();
+  }
+
+  return Promise.reject(`Ошибка ${response.status}`);
+}
+
 const getUserInfo = () => {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers
   })
-  .then((response, reject) => {
-    if (response.ok) {
-      return response.json();
-    }
-
-    return reject(`Ошибка ${response.status}`);
-  })
+  .then(checkResponse)
 }
 
 const getCards = () => {
   return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers
   })
-  .then((response, reject) => {
-    if (response.ok) {
-      return response.json();
-    }
-
-    return reject(`Ошибка ${response.status}`);
-  })
+   .then(checkResponse)
 }
 
 const editUserProfile = (userData) => {
@@ -47,13 +43,7 @@ const editUserProfile = (userData) => {
       about: userData.about
     })
   })
-  .then((response, reject) => {
-    if (response.ok) {
-      return response.json();
-    }
-
-    return reject(`Ошибка ${response.status}`);
-  })
+   .then(checkResponse)
 }
 
 const addNewCard = (cardData) => {
@@ -65,13 +55,7 @@ const addNewCard = (cardData) => {
       link: cardData.link
     })
   })
-  .then((response, reject) => {
-    if (response.ok) {
-      return response.json();
-    }
-
-    return reject(`Ошибка ${response.status}`);
-  })
+   .then(checkResponse)
 }
 
 const deleteCard = (cardId) => {
@@ -79,13 +63,7 @@ const deleteCard = (cardId) => {
     headers: config.headers,
     method: config.method.delete
   })
-  .then((response, reject) => {
-    if (response.ok) {
-      return response.json();
-    }
-
-    return reject(`Ошибка ${response.status}`);
-  })
+   .then(checkResponse)
 }
 
 const toggleFavoriteCard = (cardId, isLiked) => {
@@ -95,13 +73,7 @@ const toggleFavoriteCard = (cardId, isLiked) => {
       ? config.method.delete
       : config.method.put
   })
-  .then((response, reject) => {
-    if (response.ok) {
-      return response.json();
-    }
-
-    return reject(`Ошибка ${response.status}`);
-  })
+   .then(checkResponse)
 }
 
 const updateUserAvatar = (avatarLink) => {
@@ -112,13 +84,7 @@ const updateUserAvatar = (avatarLink) => {
       avatar: avatarLink,
     })
   })
-  .then((response, reject) => {
-    if (response.ok) {
-      return response.json();
-    }
-
-    return reject(`Ошибка ${response.status}`);
-  })
+   .then(checkResponse)
 }
 
 export {
