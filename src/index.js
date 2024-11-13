@@ -6,7 +6,7 @@ import { enableValidation, clearValidation, validationConfig } from './scripts/v
 import './styles/index.css';
 
 const placesList = document.querySelector('.places__list');
-
+let userId = null;
 // Попапы
 const popapProfileEdit = document.querySelector('.popup_type_edit');
 const popapCardCreate = document.querySelector('.popup_type_new-card');
@@ -14,7 +14,6 @@ const popapImageCard = document.querySelector('.popup_type_image');
 const popapAvatarEdit = document.querySelector('.popup_type_avatar_edit');
 const popaps = document.querySelectorAll('.popup');
 // Попапы
-
 
 // дом ноды внутренностей попапа с картинками
 const imagePopap = document.querySelector('.popup__image');
@@ -72,7 +71,7 @@ const handleCreateCardPlaceFormSubmit = (event) => {
 
   addNewCard(cardData)
     .then((newCardData) => {
-      const card = createPlaceCard(newCardData, handleDeletePlaceCard, handleToggleFavoriteCard, handleFillDataImagePopap);
+      const card = createPlaceCard(newCardData, userId, handleDeletePlaceCard, handleToggleFavoriteCard, handleFillDataImagePopap);
       placesList.prepend(card)
       formCreateCard.reset();
       handleCloseModal(popapCardCreate)
