@@ -1,1 +1,1 @@
-export { createPlaceCard, handleDeletePlaceCard, handleToggleFavoriteCard, hiddenDeleteCardButton } from './card.js';
+export { createPlaceCard, handleDeletePlaceCard, handleToggleFavoriteCard } from './card.js';

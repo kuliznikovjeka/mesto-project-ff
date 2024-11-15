@@ -24,6 +24,11 @@ const createPlaceCard = (cardData, userId, deleteCard, handleToggleFavoriteCard,
   deleteButton.setAttribute('id', cardData.owner._id);
   deleteButton.addEventListener('click', deleteCard);
 
+  if (userId !== cardData.owner._id) {
+    console.log('Сработало')
+    deleteButton.style.display = 'none';
+  }
+
   const favoriteButton = cardFragment.querySelector('.card__like-button');
   favoriteButton.addEventListener('click', handleToggleFavoriteCard);
 
@@ -39,7 +44,7 @@ const createPlaceCard = (cardData, userId, deleteCard, handleToggleFavoriteCard,
 };
 
 const handleDeletePlaceCard = (event) => {
-  const card = event.target.parentNode;
+  const card = event.target.closest('.card');
   const cardID = card.getAttribute('id');
 
   deleteCard(cardID)
@@ -67,16 +72,4 @@ const handleToggleFavoriteCard = (event) => {
     .catch((error) => console.error(error))
 }
 
-const hiddenDeleteCardButton = (userId) => {
-  const deleteButtons = document.querySelectorAll('.card__delete-button');
-
-  deleteButtons.forEach((button) => {
-    const buttonId = button.getAttribute('id');
-
-    if (buttonId !== userId) {
-      button.style.display = 'none';
-    }
-  })
-}
-
-export { createPlaceCard, handleDeletePlaceCard, handleToggleFavoriteCard, hiddenDeleteCardButton };
+export { createPlaceCard, handleDeletePlaceCard, handleToggleFavoriteCard };

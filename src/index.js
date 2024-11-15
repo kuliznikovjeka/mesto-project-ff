@@ -1,5 +1,5 @@
 import { getUserInfo, getCards, editUserProfile, addNewCard, updateUserAvatar } from './scripts/api';
-import { createPlaceCard, handleDeletePlaceCard, hiddenDeleteCardButton, handleToggleFavoriteCard } from './scripts/card';
+import { createPlaceCard, handleDeletePlaceCard, handleToggleFavoriteCard } from './scripts/card';
 import { handleCloseModal, handleOpenModal, handleCloseModalByOverlay } from './scripts/modal';
 import { enableValidation, clearValidation, validationConfig } from './scripts/validation';
 // styles
@@ -55,6 +55,8 @@ const handleFillDataImagePopap = (event) => {
   imagePopap.src = imageSrc;
   imagePopap.alt = imageCaption;
   imagePopapCaption.textContent = imageCaption;
+
+  handleOpenModal(popapImageCard);
 }
 
 const handleCreateCardPlaceFormSubmit = (event) => {
@@ -131,15 +133,13 @@ Promise.all([getUserInfo(), getCards()]).then((values) => {
   const userData = values[0];
   const cardsData = values[1];
 
-  const userId = userData._id;
+  userId = userData._id;
 
   profileName.textContent = userData.name;
   profileDescription.textContent = userData.about;
   profileImage.style.backgroundImage = `url(${userData.avatar})`;
 
   renderPlaceCards(cardsData, userId);
-  hiddenDeleteCardButton(userId);
-
 }).catch((error) => console.error(error));
 
 // Запросы данных и заполнение дом нод
@@ -169,12 +169,6 @@ createCardPopapOpenButton.addEventListener('click', () => {
   clearValidation(formCreateCard, validationConfig);
 });
 
-placesList.addEventListener('click', (event) => {
-  const isCardImage = event.target.classList.contains('card__image');
-  if (isCardImage) {
-    handleOpenModal(popapImageCard);
-  }
-});
 // слушатели событиий для октрытия попапов
 
 
